@@ -1,0 +1,1 @@
+az deployment group create --name deployRg --resource-group rg-techtuesday --template-file ./main.bicep --parameters ./parameters.json

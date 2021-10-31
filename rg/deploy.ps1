@@ -1,0 +1,1 @@
+az deployment sub create --name deployRg --location uksouth --template-file ./main.bicep --parameters ./parameters.json
