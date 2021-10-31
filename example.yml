@@ -31,6 +31,17 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       az deployment group create --resource-group rg-techtuesday \
+      --template-file './vnet/main.bicep' \
+      --parameters './vnet/parameters.json'
+  displayName: 'Deploy virtual network'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'SC-TechTuesday'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create --resource-group rg-techtuesday \
       --template-file './st/main.bicep' \
       --parameters './st/parameters.json'
   displayName: 'Deploy storage account'
