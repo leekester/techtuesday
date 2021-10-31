@@ -15,7 +15,7 @@ steps:
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: $(subscription)
+    azureSubscription: 'SC-TechTuesday'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
