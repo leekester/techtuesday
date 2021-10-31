@@ -5,6 +5,9 @@
 
 trigger: none
 
+variables:
+- group: rg_variables
+
 pool:
   vmImage: ubuntu-latest
 
