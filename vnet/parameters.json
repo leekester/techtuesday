@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "vnetName": {
+          "value": "vnet-techtuesday"
+      },
+      "addressPrefixes": {
+          "value": [
+              "10.10.10.0/24",
+              "10.10.20.0/24"
+          ]
+      },
+      "subnets": {
+          "value": [
+              {
+                  "name": "snet-techtuesday",
+                  "prefix": "10.10.10.0/25"
+              }
+          ]
+      }
+  }
+}
