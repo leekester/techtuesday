@@ -19,10 +19,18 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      ls -l
-      cat rg/main.bicep
-      cat 'rg/parameters.json'
       az deployment sub create --location uksouth \
       --template-file './rg/main.bicep' \
       --parameters './rg/parameters.json'
-  displayName: 'Deploy resource group'
+  displayName: 'Create resource group'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'SC-TechTuesday'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create --resource-group rg-techtuesday \
+      --template-file './st/main.bicep' \
+      --parameters './st/parameters.json'
+  displayName: 'Deploy storage account'
