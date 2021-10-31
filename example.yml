@@ -45,3 +45,14 @@ steps:
       --template-file './st/main.bicep' \
       --parameters './st/parameters.json'
   displayName: 'Deploy storage account'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'SC-TechTuesday'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create --resource-group rg-techtuesday \
+      --template-file './vm/main.bicep' \
+      --parameters './vm/parameters.json'
+  displayName: 'Deploy virtual machine'
