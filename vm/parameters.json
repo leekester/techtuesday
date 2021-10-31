@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "function": {
-        "value": "tech"
+        "value": "techtuesday"
       },
       "environment": {
-        "value": "tuesday"
+        "value": "dev"
       },
       "instance": {
         "value": "01"
