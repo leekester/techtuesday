@@ -1,0 +1,90 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "function": {
+        "value": "tech"
+      },
+      "environment": {
+        "value": "tuesday"
+      },
+      "instance": {
+        "value": "01"
+      },
+      "vNet": {
+        "value": {
+            "name": "vnet-techtuesday",
+            "resourceGroup": "rg-techtuesday"
+        }
+      },
+      "subnet": {
+        "value": "snet-techtuesday"
+      },
+      "vmSize": {
+        "value": "Standard_B2s"
+      },
+      "imageReference": {
+        "value": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2022-datacenter-g2",
+            "version": "latest"
+        }
+      },
+      "osDisk": {
+        "value": {
+            "osType": "Windows",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "writeAcceleratorEnabled": false,
+            "storageAccountType": "StandardSSD_LRS",
+            "diskSizeGB": 127
+        }
+      },
+      "dataDisks": {
+		"value": [
+            {
+				"lun": 0,
+                "diskName": "data",
+                "createOption": "Empty",
+                "caching": "None",
+                "writeAcceleratorEnabled": false,
+				"diskSizeGB": 32,
+				"diskSku": "StandardSSD_LRS"
+			},
+			{
+				"lun": 1,
+                "diskName": "logs",
+                "createOption": "Empty",
+                "caching": "None",
+                "writeAcceleratorEnabled": false,
+				"diskSizeGB": 32,
+				"diskSku": "StandardSSD_LRS"
+			},
+			{
+				"lun": 2,
+                "diskName": "sqlbin",
+                "createOption": "Empty",
+                "caching": "None",
+                "writeAcceleratorEnabled": false,
+				"diskSizeGB": 32,
+				"diskSku": "StandardSSD_LRS"
+			}
+		]
+	},
+      "osProfile": {
+        "value": {
+            "adminUsername": "megaadmin",
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true,
+            "patchMode": "AutomaticByOS",
+            "assessmentMode": "ImageDefault",
+            "enableHotpatching": false,
+            "allowExtensionOperations": true
+        }
+      },
+      "adminPassword": {
+          "value": "AVeryVeryStrongPassword1234"
+      }
+    }
+  }
