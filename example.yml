@@ -20,9 +20,9 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       ls -l
-      cat ./rg/parameters.json
-      cat './rg/parameters.json'
+      cat rg/main.bicep
+      cat 'rg/parameters.json'
       az deployment sub create --location uksouth \
-      --template-file 'rg\main.bicep' \
-      --parameters @"rg\parameters.json"
+      --template-file './rg/main.bicep' \
+      --parameters './rg/parameters.json'
   displayName: 'Deploy resource group'
