@@ -5,8 +5,12 @@
 
 trigger: none
 
+# variables:
+# - group: rg_variables
+
 variables:
-- group: rg_variables
+  resourceGroup: rg-techtuesday
+  location: uksouth
 
 pool:
   vmImage: ubuntu-latest
@@ -19,7 +23,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az deployment sub create --location uksouth \
+      az deployment sub create --location $(location) \
       --template-file './rg/main.bicep' \
       --parameters './rg/parameters.json'
   displayName: 'Create resource group'
@@ -30,7 +34,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az deployment group create --resource-group rg-techtuesday \
+      az deployment group create --resource-group $(resourceGroup) \
       --template-file './vnet/main.bicep' \
       --parameters './vnet/parameters.json'
   displayName: 'Deploy virtual network'
@@ -41,7 +45,18 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az deployment group create --resource-group rg-techtuesday \
+      az deployment group create --resource-group $(resourceGroup) \
       --template-file './st/main.bicep' \
       --parameters './st/parameters.json'
   displayName: 'Deploy storage account'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'SC-TechTuesday'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create --resource-group $(resourceGroup) \
+      --template-file './vm/main.bicep' \
+      --parameters './vm/parameters.json'
+  displayName: 'Deploy virtual machine'
