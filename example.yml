@@ -20,6 +20,6 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       az deployment sub create --location $(location) \
-      --template-file 'rg\main.bicep' \
+      --template-file rg\main.bicep \
       --parameters rg\parameters.json
   displayName: 'Deploy resource group'
