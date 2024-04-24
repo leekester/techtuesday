@@ -19,6 +19,7 @@ steps:
     image: 'nginx:latest'
     severities: 'HIGH,CRITICAL'
     version: 'latest'
+    debug: true
 
 # - task: Docker@2
 #   inputs:
