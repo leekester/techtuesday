@@ -12,7 +12,7 @@ pool:
 steps:
 
 - script: |
-    sudo apt-get install wget apt-transport-https gnupg lsb-release
+    sudo apt-get install wget apt-transport-https gnupg lsb-release jq
     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
     sudo apt-get update
@@ -27,7 +27,10 @@ steps:
 
 - script: |
     docker images
-    trivy image nginx:latest
+    trivy -f json --severity HIGH,CRITICAL -o trivy_scan.json image nginx:latest
+    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
+    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
+    printf "I ${RED}love${NC} Stack Overflow\n"
   displayName: 'Scan NGINX image'
 
 # - task: trivy@1
