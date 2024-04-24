@@ -19,17 +19,20 @@ steps:
     sudo apt-get install trivy
   displayName: 'Install Trivy'
 
-- script: docker images
-  displayName: 'Show local images'
-
-- task: trivy@1
+- task: Docker@2
   inputs:
-    image: 'nginx:latest'
-    severities: 'HIGH,CRITICAL'
-    version: 'latest'
-    debug: true
+    command: build
+    Dockerfile: nginx-dockerfile
+  displayName: 'Build bare NGINX image to be scanned'
 
-# - task: Docker@2
+- script: |
+    docker images
+    trivy image nginx:latest
+  displayName: 'Scan NGINX image'
+
+# - task: trivy@1
 #   inputs:
-#     command: build
-#     Dockerfile: nginx-dockerfile
+#     image: 'nginx:latest'
+#     severities: 'HIGH,CRITICAL'
+#     version: 'latest'
+#     debug: true
