@@ -10,6 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: docker pull nginx:latest
+- script: docker image pull nginx:latest
     docker images
   displayName: 'Pull and show NGINX image'
