@@ -10,10 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: Docker@2
-  inputs:
-    command: build
-    Dockerfile: nginx-dockerfile
 
 - script: docker images
-  displayName: 'Pull and show NGINX image'
+  displayName: 'Show local images'
+
+- task: trivy@1
+  inputs:
+    image: nginx:latest
+
+# - task: Docker@2
+#   inputs:
+#     command: build
+#     Dockerfile: nginx-dockerfile
