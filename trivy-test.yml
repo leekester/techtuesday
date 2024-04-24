@@ -31,6 +31,9 @@ steps:
     HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
     CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
     printf "I ${RED}love${NC} Stack Overflow\n"
+    echo "Vulnerability Summary..."
+    echo Criticals: $CRITICAL_COUNT
+    echo Highs: $HIGH_COUNT
   displayName: 'Scan NGINX image'
 
 # - task: trivy@1
