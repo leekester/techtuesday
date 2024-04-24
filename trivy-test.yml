@@ -10,6 +10,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: docker image pull nginx:latest
-    docker images
+- task: Docker@2
+  inputs:
+    command: build
+    Dockerfile: nginx-dockerfile
+
+- script: docker images
   displayName: 'Pull and show NGINX image'
