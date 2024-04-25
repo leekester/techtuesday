@@ -3,21 +3,21 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- master
+# trigger:
+# - master
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
 
-# - script: |
-#     sudo apt-get install wget apt-transport-https gnupg lsb-release jq
-#     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-#     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-#     sudo apt-get update
-#     sudo apt-get install trivy
-#   displayName: 'Install Trivy'
+- script: |
+    sudo apt-get install wget apt-transport-https gnupg lsb-release jq
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+    echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    sudo apt-get update
+    sudo apt-get install trivy
+  displayName: 'Install Trivy'
 
 - task: Docker@2
   inputs:
@@ -31,24 +31,17 @@ steps:
     exitCode: 0
     severities: HIGH,CRITICAL,MEDIUM,LOW
     options: --security-checks vuln
-  displayName: 'Trivy Image Scan'
+  displayName: 'Trivy Task Scan/Output to ADO'
 
 - script: |
-    TRIVY_OUTPUT=$(ls /tmp/trivy-results*.json)
-    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "CRITICAL" | wc -l)
-    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "HIGH" | wc -l)
-    MEDIUM_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "MEDIUM" | wc -l)
-    LOW_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "LOW" | wc -l)
+    trivy image -f json -o trivy-results.json --security-checks vuln nginx:latest
+    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy-results.json | grep "CRITICAL" | wc -l)
+    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy-results.json | grep "HIGH" | wc -l)
+    MEDIUM_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy-results.json | grep "MEDIUM" | wc -l)
+    LOW_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy-results.json | grep "LOW" | wc -l)
     echo "Vulnerability Summary..."
     echo Criticals: $CRITICAL_COUNT
     echo Highs: $HIGH_COUNT
     echo Medium: $MEDIUM_COUNT
     echo Low: $LOW_COUNT
   displayName: 'Summarize Trivy Results'
-
-# - task: trivy@1
-#   inputs:
-#     image: 'nginx:latest'
-#     severities: 'HIGH,CRITICAL'
-#     version: 'latest'
-#     debug: true
