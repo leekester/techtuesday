@@ -35,11 +35,15 @@ steps:
 
 - script: |
     TRIVY_OUTPUT=$(ls /tmp/trivy-results*.json)
-    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
-    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
-    # echo "Vulnerability Summary..."
-    # echo Criticals: $CRITICAL_COUNT
-    # echo Highs: $HIGH_COUNT
+    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "CRITICAL" | wc -l)
+    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "HIGH" | wc -l)
+    MEDIUM_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "MEDIUM" | wc -l)
+    LOW_COUNT=$(jq .Results[0].Vulnerabilities[].Severity TRIVY_OUTPUT | grep "LOW" | wc -l)
+    echo "Vulnerability Summary..."
+    echo Criticals: $CRITICAL_COUNT
+    echo Highs: $HIGH_COUNT
+    echo Medium: $MEDIUM_COUNT
+    echo Low: $LOW_COUNT
   displayName: 'Summarize Trivy Results'
 
 # - task: trivy@1
