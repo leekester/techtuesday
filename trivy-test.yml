@@ -36,6 +36,11 @@ steps:
     echo Highs: $HIGH_COUNT
   displayName: 'Scan NGINX image'
 
+- task: trivy@1
+  inputs:
+    image: nginx:latest
+  
+
 # - task: trivy@1
 #   inputs:
 #     image: 'nginx:latest'
