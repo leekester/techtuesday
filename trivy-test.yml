@@ -35,9 +35,8 @@ steps:
     docker images
     # trivy image --format json --output /tmp/trivy-results-0.03573888811975845.json --security-checks vuln,config,secret nginx:latest
     # trivy -f json --severity HIGH,CRITICAL -o trivy_scan.json image nginx:latest
-    HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
-    CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
-    printf "I ${RED}love${NC} Stack Overflow\n"
+    # HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
+    # CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
     echo "Vulnerability Summary..."
     echo Criticals: $CRITICAL_COUNT
     echo Highs: $HIGH_COUNT
