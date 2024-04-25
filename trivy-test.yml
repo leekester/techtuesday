@@ -29,17 +29,19 @@ steps:
   inputs:
     image: nginx:latest
     exitCode: 0
-    severities: HIGH,CRITICAL
+    severities: HIGH,CRITICAL,MEDIUM,LOW
+    options: --security-checks vuln
 
 - script: |
-    docker images
+    ls -l /tmp
+    # docker images
     # trivy image --format json --output /tmp/trivy-results-0.03573888811975845.json --security-checks vuln,config,secret nginx:latest
     # trivy -f json --severity HIGH,CRITICAL -o trivy_scan.json image nginx:latest
     # HIGH_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "HIGH" | wc -l)
     # CRITICAL_COUNT=$(jq .Results[0].Vulnerabilities[].Severity trivy_scan.json | grep "CRITICAL" | wc -l)
-    echo "Vulnerability Summary..."
-    echo Criticals: $CRITICAL_COUNT
-    echo Highs: $HIGH_COUNT
+    # echo "Vulnerability Summary..."
+    # echo Criticals: $CRITICAL_COUNT
+    # echo Highs: $HIGH_COUNT
   displayName: 'Scan NGINX image'  
 
 # - task: trivy@1
